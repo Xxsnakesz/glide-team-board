@@ -22,6 +22,24 @@ ProManage is built as a **monorepo** with separate frontend and backend:
 
 ## Quick Start
 
+### 🐳 Docker (Recommended)
+
+The easiest way to run the entire application:
+
+```bash
+# 1. Copy environment file
+cp .env.docker .env
+
+# 2. Update .env with your Google OAuth credentials
+
+# 3. Start all services (frontend, backend, database)
+docker-compose up -d
+
+# 4. Access the application at http://localhost
+```
+
+See [DOCKER.md](DOCKER.md) for complete Docker deployment guide.
+
 ### Frontend (Lovable)
 
 The frontend is already running in Lovable. To connect it to your backend:

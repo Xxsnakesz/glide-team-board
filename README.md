@@ -33,7 +33,7 @@ cp .env.docker .env
 # 2. Update .env with your Google OAuth credentials
 
 # 3. Start all services (frontend, backend, database)
-docker-compose up -d
+docker compose up -d
 
 # 4. Access the application at http://localhost
 ```

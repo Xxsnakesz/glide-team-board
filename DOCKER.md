@@ -33,8 +33,22 @@ Edit `.env` and update the following:
 
 ### 3. Start the Application
 
+**Option A: Using the startup script (recommended for first-time setup)**
+
 ```bash
-docker-compose up -d
+./start-docker.sh
+```
+
+The script will:
+- Check if Docker is installed
+- Create .env from template if needed
+- Build and start all services
+- Display access URLs
+
+**Option B: Manual start**
+
+```bash
+docker compose up -d
 ```
 
 This will start three services:
@@ -81,58 +95,60 @@ Open your browser and navigate to:
 
 ```bash
 # Start all services
-docker-compose up -d
+docker compose up -d
 
 # Start specific service
-docker-compose up -d backend
+docker compose up -d backend
 
 # Start with logs
-docker-compose up
+docker compose up
 ```
+
+> **Note:** If you have an older version of Docker Compose, you may need to use `docker-compose` (with hyphen) instead of `docker compose`.
 
 ### Stop Services
 
 ```bash
 # Stop all services
-docker-compose down
+docker compose down
 
 # Stop and remove volumes (WARNING: This deletes all data)
-docker-compose down -v
+docker compose down -v
 ```
 
 ### View Logs
 
 ```bash
 # View all logs
-docker-compose logs
+docker compose logs
 
 # View specific service logs
-docker-compose logs backend
-docker-compose logs frontend
-docker-compose logs postgres
+docker compose logs backend
+docker compose logs frontend
+docker compose logs postgres
 
 # Follow logs
-docker-compose logs -f backend
+docker compose logs -f backend
 ```
 
 ### Restart Services
 
 ```bash
 # Restart all services
-docker-compose restart
+docker compose restart
 
 # Restart specific service
-docker-compose restart backend
+docker compose restart backend
 ```
 
 ### Rebuild Services
 
 ```bash
 # Rebuild and restart all services
-docker-compose up -d --build
+docker compose up -d --build
 
 # Rebuild specific service
-docker-compose up -d --build backend
+docker compose up -d --build backend
 ```
 
 ## Database Management
@@ -141,7 +157,7 @@ docker-compose up -d --build backend
 
 ```bash
 # Connect to database
-docker-compose exec postgres psql -U postgres -d promanage
+docker compose exec postgres psql -U postgres -d promanage
 ```
 
 ### Run Migrations
@@ -150,20 +166,20 @@ The database schema is automatically initialized when the PostgreSQL container s
 
 ```bash
 # Run schema migration
-docker-compose exec postgres psql -U postgres -d promanage -f /docker-entrypoint-initdb.d/01-schema.sql
+docker compose exec postgres psql -U postgres -d promanage -f /docker-entrypoint-initdb.d/01-schema.sql
 
 # Run seed data
-docker-compose exec postgres psql -U postgres -d promanage -f /docker-entrypoint-initdb.d/02-seed.sql
+docker compose exec postgres psql -U postgres -d promanage -f /docker-entrypoint-initdb.d/02-seed.sql
 ```
 
 ### Backup Database
 
 ```bash
 # Backup to file
-docker-compose exec postgres pg_dump -U postgres promanage > backup.sql
+docker compose exec postgres pg_dump -U postgres promanage > backup.sql
 
 # Restore from backup
-docker-compose exec -T postgres psql -U postgres -d promanage < backup.sql
+docker compose exec -T postgres psql -U postgres -d promanage < backup.sql
 ```
 
 ## Environment Variables
@@ -248,8 +264,8 @@ DB_PORT=5433
 Check if PostgreSQL is healthy:
 
 ```bash
-docker-compose ps postgres
-docker-compose logs postgres
+docker compose ps postgres
+docker compose logs postgres
 ```
 
 ### Backend Not Starting
@@ -257,7 +273,7 @@ docker-compose logs postgres
 Check backend logs:
 
 ```bash
-docker-compose logs backend
+docker compose logs backend
 ```
 
 Common issues:
@@ -270,8 +286,8 @@ Common issues:
 Rebuild the frontend with verbose logs:
 
 ```bash
-docker-compose build --no-cache frontend
-docker-compose logs frontend
+docker compose build --no-cache frontend
+docker compose logs frontend
 ```
 
 ### Reset Everything
@@ -279,8 +295,8 @@ docker-compose logs frontend
 To completely reset (WARNING: deletes all data):
 
 ```bash
-docker-compose down -v
-docker-compose up -d --build
+docker compose down -v
+docker compose up -d --build
 ```
 
 ## Development Mode
@@ -315,7 +331,7 @@ All services include health checks:
 
 ```bash
 # Check service health
-docker-compose ps
+docker compose ps
 
 # Manual health check
 curl http://localhost:3000/health
@@ -327,7 +343,7 @@ curl http://localhost/
 To run multiple instances of the backend:
 
 ```bash
-docker-compose up -d --scale backend=3
+docker compose up -d --scale backend=3
 ```
 
 Note: You'll need a load balancer (like nginx) to distribute traffic.
@@ -337,7 +353,7 @@ Note: You'll need a load balancer (like nginx) to distribute traffic.
 1. **Never commit `.env` file** - It contains sensitive credentials
 2. **Use strong passwords** - For database and session secrets
 3. **Keep secrets out of docker-compose.yml** - Use `.env` file instead
-4. **Update dependencies regularly** - Run `docker-compose build --no-cache`
+4. **Update dependencies regularly** - Run `docker compose build --no-cache`
 5. **Use HTTPS in production** - Set up SSL certificates
 6. **Restrict database access** - Don't expose port 5432 publicly
 7. **Enable firewall** - Only allow necessary ports
@@ -383,10 +399,10 @@ docker stats
 
 ```bash
 # All logs
-docker-compose logs -f
+docker compose logs -f
 
 # Last 100 lines
-docker-compose logs --tail=100 backend
+docker compose logs --tail=100 backend
 ```
 
 ## Support
